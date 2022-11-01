@@ -5,20 +5,131 @@
         
         <div class="row align-items-center">
             <div class="col-12 tablas">
-                <span class="fs-4">EDUCACIÓN</span>
-
-
+                <span class="fs-2">PORTFOLIO</span>
+                <button *ngIf="loginService.isLogged()" type="button" class="btn btn-outline-light btn-sm agregar" data-bs-toggle="modal" data-bs-target="#proyecto" (click)="editar=false"><i class="bi bi-folder-plus"></i></button>
                 
                 
-            </div>
+                <h5></h5>
 
+
+                  <div class="d-flex justify-content-between">
+                    <!-- TARJETAS -->
+                <div *ngFor="let pr of proyectos" class="card" style="width: 18rem;">
+                  <img src="../../../assets/perfil.jpg" class="card-img-top" alt="Imagen del proyecto">
+                  <div class="card-body">
+
+                    <!-- BOTON QUE ABRE MODAL -->
+                    <button type="button" class="btn btn-outline-light btn-sm expandir" data-bs-toggle="modal" data-bs-target="#proyectoModal" (click)="mostrarModal(pr)" >+ INFO</button>
+                    <br>
+
+                    <!-- MODAL -->
+                    <div class="modal fade" id="proyectoModal" tabindex="-1" aria-labelledby="proyectoModal" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">TIPO DE PROYECTO: <span class="texto">{{proyecto.tipo}}</span></h1>
+                          </div>
+
+                          <div class="modal-body">
+                            <p class="texto">{{proyecto.multimedia}}</p> 
+                            <br>
+                          </div>
+                          
+                          <div class="footer">
+                            <p class="text-start"><small class="text-muted">DESCRIPCIÓN DEL PROYECTO: {{proyecto.descripcion}}</small></p>
+                         </div>
+                         
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <!-- BOTONES DE EDICION -->
+
+                    <button *ngIf="loginService.isLogged()" type="button" class="btn btn-outline-light btn-sm  edicion" 
+                      (click)="eliminarProyecto(pr.id)">
+                      <i class="bi bi-folder-x"></i>
+                    </button>
+                  
+                    <button *ngIf="loginService.isLogged()" type="button" class="btn btn-outline-light btn-sm  edicion" data-bs-toggle="modal" data-bs-target="#proyecto"
+                      (click)="traerProyecto(pr)">
+                      <i class="bi bi-folder-minus"></i>
+                    </button>
+
+                  </div>
+                </div>
+                  </div>
+            
+                
 
             
+            </div>
+                  
+
+        </div>
+        
 
     </div>
+    
 
+<!-- MODAL -->
+<div class="modal fade" id="proyecto" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="proyecto" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 *ngIf="!editar" class="modal-title" id="exampleModalLabel">AGREGAR PROYECTO</h5>
+          <h5 *ngIf="editar" class="modal-title" id="exampleModalLabel">EDITAR PROYECTO</h5>
+          
+          
+        </div>
+        
+        <div class="modal-body">
+         <!-- FORMULARIO -->
+         <form [formGroup]="proyectoForm" (ngSubmit)="agregarProyecto()">
+          
+          
+          
+          <div class="mb-3">
+            <label for="habilidad" class="form-label">TIPO DE PROYECTO</label>
+            <input formControlName="tipo" type="text" class="form-control" id="tipo" placeholder="CLASIFICACIÓN DEL PROYECTO">
+            
+          </div>
+          
+              
+          <div class="mb-3">
+            
+            <label for="dominio" class="form-label">DESCRIPCIÓN</label>
+            <textarea formControlName="descripcion" class="form-control" aria-label="With textarea" placeholder="DESCIPCIÓN DEL PROYECTO"></textarea>
+            
+          </div>
+
+          <div class="mb-3">
+            
+            <label for="dominio" class="form-label"></label>
+            <!-- <input type="file" formControlName="multimedia"> -->
+            <textarea formControlName="multimedia" class="form-control" aria-label="With textarea"></textarea>
+            <p *ngIf="mostrar"> NÚMERO DE REGISTRO: {{proyectoEdit.id}}</p>
+          </div>
+          
+          
+        </form>
+      
+      
+  
+      </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetProyecto()">ANULAR</button>
+          <button *ngIf="!editar" type="submit" class="btn btn-secondary" data-bs-dismiss="modal" [disabled]="proyectoForm.invalid" (click)="agregarProyecto()">GUARDAR CAMBIOS</button>
+          <button *ngIf="editar"  type="submit" class="btn btn-secondary" data-bs-dismiss="modal" [disabled]="proyectoForm.invalid" (click)="editarProyecto(proyectoForm.value)">ACTUALIZAR</button>
+        </div>
+      </div>
+    </div>
+  </div>
     
 
 
+    
 
 </div>
+<!-- EDICIONES -->

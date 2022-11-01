@@ -1,10 +1,91 @@
+<div class="menu-entero">
+    <nav class="header navbar navbar-expand-lg fixed-top">
+    
+        <div class="container-fluid">
+        
+              <h6> <img src="../../../assets/arg-prog-logo.png" class="logo fs-3" alt=""> <span class="yoprog"> #YoProgramo</span> </h6>
+        
+             
+              <button  *ngIf="!loginService.isLogged()" type="button" class="btn btn-secondary"  data-bs-toggle="modal" data-bs-target="#staticBackdrop">INICIAR SESIÓN</button>
+              <button *ngIf="loginService.isLogged()" type="button" class="btn btn-secondary"  (click)="cerrarSesion()">CERRAR SESION</button>
 
-<app-nav></app-nav>
-<app-inicio></app-inicio>
-<app-sobre-mi></app-sobre-mi>
-<app-proyectos></app-proyectos>
-<app-contacto></app-contacto>
+                 
+        </div>
+        
+    </nav>
+
+    <!-- MODAL LOGIN-->
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <form [formGroup]="formLogin" (ngSubmit)="Login()">
+  
+      <div class="modal-dialog modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">INICIAR SESION</h5>
+        
+      </div>
+
+      
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="username" class="form-label">USUARIO</label>
+            <input type="text" formControlName="username" class="form-control" placeholder="Nombre de Usuario" id="username">
+            
+          </div>
+          <div class="mb-3">
+            <label for="password"  class="form-label">CONTRASEÑA</label>
+            <input type="password" class="form-control" formControlName="password" placeholder="Contraseña" id="password">
+          </div>
+          
+          
+        </form>
+        
+      </div>
+      <div class="modal-footer">
+        <button   [disabled]="formLogin.invalid" class="btn btn-secondary" data-bs-dismiss="modal" type="submit">INICIAR SESION</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="Reset()">ANULAR</button>
+        
+      </div>
+    </div>
+  </div>
+
+  </form>
+</div>
+
+
+    
+        
+        <!-- MENU LATERAL -->
+        <div class="conter">
+
+        
+        
+        <nav class="caja-menu">
+            <h1  *ngFor="let u of user" class="fs-1">{{u.nombre}}</h1>
+            <a class="nav-link active fs-3" routerLink="inicio" routerLinkActive="activo">INICIO</a>
+            <a class="nav-link fs-3" routerLink="sobre-mi" routerLinkActive="activo">SOBRE MI</a>
+            <a class="nav-link fs-3" routerLink="proyectos" routerLinkActive="activo">PROYECTOS</a>
+            <a class="nav-link fs-3" routerLink="contacto" routerLinkActive="activo">CONTACTO</a>
+
+        </nav>
+    
+            
+    
+    </div>
+
+    <!-- FOOTER -->
+
+    <footer>
+      <div>
+        <p>DISEÑADO POR DANIEL PEREYRA</p>
+      </div>
+    </footer>
+    
+</div>
 
 
 
 <router-outlet></router-outlet>
+
